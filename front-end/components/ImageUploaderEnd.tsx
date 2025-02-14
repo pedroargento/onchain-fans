@@ -33,8 +33,8 @@ export default function ImageUploaderEnd() {
     if (!selectedImage || !address || !connector) return;
 
     const arrayBuffer = await selectedImage.arrayBuffer();
-    // const hexString = "0x" + Buffer.from(arrayBuffer).toString("hex") as `0x${string}`;
-    const hexString = "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"
+    const hexString = "0x" + Buffer.from(arrayBuffer).toString("hex") as `0x${string}`;
+    // const hexString = "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"
 
     callContract(address, connector, ABI, "runExecution", [hexString] as never[])
   };

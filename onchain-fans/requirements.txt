@@ -1,1 +1,4 @@
 requests == 2.31.0
+pysha3 == 1.0.2
+./wheels/numpy-2.1.3-cp310-cp310-linux_riscv64.whl
+./wheels/Pillow-10.1.0-cp310-cp310-linux_riscv64.whl
