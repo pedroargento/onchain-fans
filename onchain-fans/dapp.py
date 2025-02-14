@@ -26,8 +26,9 @@ def handle_advance(data):
         kernel_size = 8
         # format can also be JPEG
         format = 'PNG'
-
-        blurred_image = box_blur_from_image_binary(payload_hex, kernel_size)
+        
+        bytes_data = bytes.fromhex(payload_hex[2:])  # Remove '0x' before conversion
+        blurred_image = box_blur_from_image_binary(bytes_data, kernel_size)
         keccak_hash = keccak_hash_image(blurred_image, format)
         notice = {'payload': f'0x{keccak_hash}'}
         emit_notice(notice)
