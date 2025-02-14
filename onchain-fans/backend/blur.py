@@ -91,25 +91,26 @@ def hexdump_image(image_path):
         print(f"Error: Unable to open image file {image_path}. Please ensure it is a valid image.")
         return None
 
-# Test 1
-hex_bytes = hexdump_image("input_image.png")
-blurred = box_blur_from_image_binary(hex_bytes, kernel_size=8)  # You can also use "input_image.jpg"
-if blurred:
-    blurred.save("blurred_image.png")  # Save as PNG or JPG as needed
-    image_hash = keccak_hash_image(blurred, 'PNG')
+# uncomment below to run tests
+# # Test 1
+# hex_bytes = hexdump_image("input_image.png")
+# blurred = box_blur_from_image_binary(hex_bytes, 8)  # You can also use "input_image.jpg"
+# if blurred:
+#     blurred.save("blurred_image.png")  # Save as PNG or JPG as needed
+#     image_hash = keccak_hash_image(blurred, 'PNG')
     
-    expected_hash = "c4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"  # Replace with your expected hash
-    # Assert that the computed hash matches the expected value
-    assert image_hash == expected_hash, f"Hash mismatch: expected {expected_hash}, got {image_hash}"
-    print(f"Keccak hash of the image: {image_hash}")
+#     expected_hash = "c4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"  # Replace with your expected hash
+#     # Assert that the computed hash matches the expected value
+#     assert image_hash == expected_hash, f"Hash mismatch: expected {expected_hash}, got {image_hash}"
+#     print(f"Keccak hash of the image: {image_hash}")
     
-# Test 2
-blurred = box_blur_from_image_path("input_image.png", kernel_size=8)  # You can also use "input_image.jpg"
-if blurred:
-    blurred.save("blurred_image.png")  # Save as PNG or JPG as needed
-    image_hash = keccak_hash_image(blurred, 'PNG')
+# # Test 2
+# blurred = box_blur_from_image_path("input_image.png", 8)  # You can also use "input_image.jpg"
+# if blurred:
+#     blurred.save("blurred_image.png")  # Save as PNG or JPG as needed
+#     image_hash = keccak_hash_image(blurred, 'PNG')
     
-    expected_hash = "c4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"  # Replace with your expected hash
-    # Assert that the computed hash matches the expected value
-    assert image_hash == expected_hash, f"Hash mismatch: expected {expected_hash}, got {image_hash}"
-    print(f"Keccak hash of the image: {image_hash}")
+#     expected_hash = "c4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"  # Replace with your expected hash
+#     # Assert that the computed hash matches the expected value
+#     assert image_hash == expected_hash, f"Hash mismatch: expected {expected_hash}, got {image_hash}"
+#     print(f"Keccak hash of the image: {image_hash}")
