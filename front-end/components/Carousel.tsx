@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const images = [
-  "https://placehold.co/1920x1080",
-  "https://placehold.co/1940x1080",
+  "/bg1.jpg",
+  "/bg1.jpg",
+  // "/bg2.jpg",
 ];
 
 export default function HeroCarousel() {

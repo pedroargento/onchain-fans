@@ -8,7 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN <<EOF
 set -e
 apt-get update
-apt-get install -y --no-install-recommends \
+apt-get install -y --no-install-recommends libjpeg8-dev libopenblas-dev build-essential=12.9ubuntu3 \
   busybox-static=1:1.30.1-7ubuntu3
 rm -rf /var/lib/apt/lists/* /var/log/* /var/cache/*
 useradd --create-home --user-group dapp
@@ -24,13 +24,13 @@ ENV PATH="/opt/cartesi/bin:${PATH}"
 WORKDIR /opt/cartesi/dapp
 COPY ./requirements.txt .
 
+COPY . .
+
 RUN <<EOF
 set -e
 pip install -r requirements.txt --no-cache
 find /usr/local/lib -type d -name __pycache__ -exec rm -r {} +
 EOF
-
-COPY ./dapp.py .
 
 ENV ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004"
 

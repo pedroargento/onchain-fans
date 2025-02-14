@@ -1,24 +1,14 @@
 "use client";
 
 import { useState } from 'react';
-import { createWalletClient, custom, parseEther } from 'viem';
+import { parseEther, parseAbi } from 'viem';
 import { useAccount } from 'wagmi';
-import { anvil, sepolia } from 'viem/chains';
-import { Chain } from '@rainbow-me/rainbowkit';
 
-const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const ABI = [
-  {
-    "inputs": [
-      { "internalType": "string", "name": "imageHex", "type": "string" },
-      { "internalType": "uint256", "name": "priceInEth", "type": "uint256" }
-    ],
-    "name": "uploadImage",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
+import { callContract } from '@/service/contract.service';
+
+const ABI = parseAbi([
+  "function listImage(bytes32 processedImageHash, uint256 price) external",
+]);
 
 export default function ImageUploader() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -43,22 +33,13 @@ export default function ImageUploader() {
     if (!selectedImage || !price || !address || !connector) return;
 
     const arrayBuffer = await selectedImage.arrayBuffer();
-    const hexString = Buffer.from(arrayBuffer).toString("hex");
+    // const hexString = Buffer.from(arrayBuffer).toString("hex");
+    const hexString = "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"
     const priceInWei = parseEther(price);
 
-    const walletClient = createWalletClient({
-      chain: anvil,
-      transport: custom(await connector.getProvider() as any),
-    });
+    // Call contract function
+    callContract(address, connector, ABI, "listImage", [hexString, priceInWei] as never[])
 
-
-    await walletClient.writeContract({
-      address: CONTRACT_ADDRESS,
-      abi: ABI,
-      functionName: "uploadImage",
-      args: [hexString, priceInWei],
-      account: address,
-    });
   };
 
   return (

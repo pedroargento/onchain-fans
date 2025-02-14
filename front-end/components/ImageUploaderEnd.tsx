@@ -5,8 +5,8 @@ import { createWalletClient, custom, parseAbi } from 'viem';
 import { useAccount } from 'wagmi';
 import { anvil, sepolia } from 'viem/chains';
 import { Chain } from '@rainbow-me/rainbowkit';
+import { callContract } from '@/service/contract.service';
 
-const CONTRACT_ADDRESS = "0x1429859428C0aBc9C2C47C8Ee9FBaf82cFA0F20f";
 const ABI = parseAbi([
   "function runExecution(bytes input) external",
 ]);
@@ -34,20 +34,9 @@ export default function ImageUploaderEnd() {
 
     const arrayBuffer = await selectedImage.arrayBuffer();
     const hexString = "0x" + Buffer.from(arrayBuffer).toString("hex") as `0x${string}`;
+    // const hexString = "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62"
 
-    const walletClient = createWalletClient({
-      chain: anvil,
-      transport: custom(await connector.getProvider() as any),
-    });
-
-    console.log(hexString)
-    await walletClient.writeContract({
-      address: CONTRACT_ADDRESS,
-      abi: ABI,
-      functionName: "runExecution",
-      args: [hexString],
-      account: address,
-    });
+    callContract(address, connector, ABI, "runExecution", [hexString] as never[])
   };
 
   return (
