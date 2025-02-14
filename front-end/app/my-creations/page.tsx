@@ -20,7 +20,7 @@ export default function MyCreations() {
 
 
   // Define fetchImages as useCallback so it doesn't change on every render
-  const fetchImages = useCallback(async () => {
+  const fetchImages = async () => {
     try {
       const imageHashes = await readContract(ABI, "getAllImageSales", []) as never[];
       let imageDetails: any[] = []
@@ -33,6 +33,10 @@ export default function MyCreations() {
               [hash]
             ) as never[]
 
+            let url = processedHash === "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62" ? `/blurred_image.png` : `https://placehold.co/400x400`
+            if (processedHash == originalHash) {
+              url = '/input_image.png'
+            }
             return {
               seller,
               price: Number(price) / 1e18, // Convert wei to ETH
@@ -41,7 +45,7 @@ export default function MyCreations() {
               current: paid ? 1 : 0,
               goal: 1,
               name: "",
-              url: processedHash === "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62" ? `/blurred_image.png` : `https://placehold.co/400x400`,
+              url: url,
             };
 
           })
@@ -63,18 +67,22 @@ export default function MyCreations() {
     } catch (error) {
       console.error("Error fetching images:", error);
     }
-  }, [address]);
+  };
 
   // Fetch images on component mount
   useEffect(() => {
     fetchImages();
-  }, [address]);
+  }, [address, purchases]);
+
+  const updatePurchases = () => {
+    setpurchases(purchases + 1)
+  }
 
   return (
     <>
       <div className="grid items-center justify-items-center min-h-[70vh] pb-20">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-          <Grid title="My Creations" seller={true} images={images} fetchImages={ () => {return} } />
+          <Grid title="My Creations" seller={true} images={images} fetchImages={ updatePurchases } />
         </main>
       </div>
       <Footer />

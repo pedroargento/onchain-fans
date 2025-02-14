@@ -64,6 +64,15 @@ contract OnchainFans is CoprocessorAdapter {
         require(payloadHash != "0x", "Image not found");
         require(sales[decodedPayload].seller != address(0), "Image not found");
         sales[decodedPayload].originalImage = decodedPayload;
+
+        ImageSale storage sale = sales[decodedPayload];
+
+        require(sale.paid, "Not paid yet");
+        require(sale.originalImage == sale.processedImageHash, "Verification failed");
+
+        uint256 amount = sale.price;
+        sale.seller.transfer(amount); // Transfer funds to seller
+        emit FundsWithdrawn(sale.seller, decodedPayload);
     }
 
     /// @notice Withdraw funds after verification

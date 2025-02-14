@@ -18,7 +18,7 @@ export default function Home() {
 
 
   // Define fetchImages as useCallback so it doesn't change on every render
-  const fetchImages = useCallback(async () => {
+  const fetchImages = async () => {
     try {
       const imageHashes = await readContract(ABI, "getAllImageSales", []) as never[];
       let imageDetails: any[] = []
@@ -30,6 +30,10 @@ export default function Home() {
               "getImageSale",
               [hash]
             ) as never[]
+            let url = processedHash === "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62" ? `/blurred_image.png` : `https://placehold.co/400x400`
+            if (processedHash == originalHash) {
+              url = '/input_image.png'
+            }
             return {
               seller,
               price: Number(price) / 1e18, // Convert wei to ETH
@@ -38,7 +42,7 @@ export default function Home() {
               current: paid ? 1 : 0,
               goal: 1,
               name: "",
-              url: processedHash === "0xc4a9e2dfb233a86cf55cbe7bd7c9c08a5b9c7fca198e3577f96ad17ae0581e62" ? `/blurred_image.png` : `https://placehold.co/400x400`,
+              url: url,
             };
           })
         );
@@ -53,7 +57,7 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching images:", error);
     }
-  }, []);
+  };
 
   function purchase() {
     setpurchases(purchases + 1)

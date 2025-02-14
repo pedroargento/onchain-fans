@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import ImageUploaderEnd from "./ImageUploaderEnd";
 
-export default function Home({ hidden=false, hex="0x00" }) {
+export default function FinishSale({ hidden=false, hex="0x00", update=()=>{} }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(()=>{update()},[isModalOpen])
 
   return (
     <div className="flex flex-col items-center justify-center" hidden={hidden}>
