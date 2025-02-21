@@ -33,4 +33,31 @@ The solution provides a **trustless** and **decentralized** way to sell digital 
 - ✅ **Incentivized Sales**: Buyers are more likely to participate when they see clear conditions for unlocking the full image.  
 - ✅ **Trustless Mechanism**: Smart contracts enforce the rules, eliminating the need for third-party trust.  
 - ✅ **Proof of Purchase**: Buyers have on-chain records of their purchases, ensuring transparency.  
-- ✅ **No Middlemen**: Reduces fees and risks associated with centralized platforms controlling digital sales.  
+- ✅ **No Middlemen**: Reduces fees and risks associated with centralized platforms controlling digital sales.
+
+---
+
+## Running the Solution
+
+Starting the Backend:
+cd into server directory (/onchain-fans)
+```bash
+cartesi-coprocessor start-devnet
+cartesi-coprocessor pubish --network devnet
+```
+
+Copy the machine hash gotten after publishing the coprocessor program
+```bash
+cartesi-coprocessor address-book
+```
+
+cd into the `contracts/src` directory
+```bash
+cartesi-coprocessor deploy --contract-name OnchainFans --network devnet --constructor-args <task_issuer_address> <Machine Hash>
+```
+
+cd into the frontend folder
+```bash
+npm install
+npm run dev
+```
